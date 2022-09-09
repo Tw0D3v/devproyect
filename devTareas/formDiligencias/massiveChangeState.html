@@ -1,0 +1,43 @@
+
+<main class="container">
+    <fieldset>
+        <legend>Filtros para Elegir</legend>
+        <form action="" id="frmDatos" method="post">
+            <div class="form-group">
+                <div class="grupo-campos">
+                    <label for="cmbEstadoActual">Estado Actual:</label>
+                    <select class="form-control" id="EestadoActual" name="EestadoActual">
+                        <option value="0">Estado actual</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grupos-campos">
+                <label for="Qmensaje">Q.Mensajero</label>
+                <input type="text" name="txtMensajero" id="txtMensajero">
+                <span class="auxiliar" id="dshMensajero">SIN MENSAJERO</span>
+            </div>
+            <div class="form-grop">
+                <div class="grupo-campos">
+                    <label for="diligencia">Diligencia</label>
+                    <input type="text" name="txtDiligencia" id="textMensajero">
+                </div>
+            </div>
+        </form>
+    </fieldset>
+
+    <div class="grupo-campos">
+        <select class="form-control" name="" id="">
+            <option value="">Estado nuevo</option>
+        </select>
+        <span class="auxiliar">Estado</span>
+    </div>
+       <button class="btn-grabar" name="btn-grabar" id="btn-grabar">Grabar nuevo estado</button>
+    </nav>
+
+    <table class="tabladatos" id='tblMassiveChange' aria-label="btlmensajeroMasive">
+        <thead>
+            <tr><th>DILIGENCIA</th><th>ESTADO</th><th>MENSAJERO</th><th>ELEGIR</th></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</main>

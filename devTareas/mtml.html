@@ -1,0 +1,309 @@
+<style>
+    #iconAbrirMenu{
+        font-size: 3.5rem;
+        cursor: pointer;
+        margin-left: 2rem;
+        color:#fff;
+    }
+    #divSecciones{
+        flex-flow: column nowrap;
+        flex-basis: 100%;
+    }
+    .totalPantalla section{
+        border: solid 1px #00006A;
+        border-radius: 0 0 2rem 2rem;
+    }
+    .fas.fa-check-circle {
+        color: green;
+    }
+    .fas {
+        font-size: 1.5em;
+    }
+    .fa-image{
+        margin-left:1rem;
+    }
+    #divAdjuntos {
+        display: flex;
+    }
+    .img-container {
+        margin-left: 2rem;
+    }
+</style>
+<main class='espacioTotal'>
+    <header>
+        <span id="iconAbrirMenu" class='fas fa-bars' title="mostrar filtros"></span>
+        <h1>Control de ingresos</h1>
+    </header>
+    <div class="totalPantalla">
+        <div id='menuGrafico' class="nav menuGrafico">
+            <button id='btnGestion' class='btn optMenu optMenuElegido'>
+                <span class='fas fa-running iconMenu'></span>
+                Gestionar
+            </button>
+            <button id='btnHistorico' class='btn optMenu'>
+                <span class='fas fa-database iconMenu'></span>
+                Histórico
+            </button>
+            <button id='btnCxPagar' class='btn optMenu'>
+                <span class='fas fa-file-invoice-dollar iconMenu'></span>
+                Documentos por cruzar
+            </button>
+        </div>
+        <form class="formFiltro oculto" id="frmDatos" action="javascript:void(null);" method="POST">
+            <fieldset><legend>Filtros para consulta</legend>
+                <div class="form-group">
+                    <div class="grupo-campos">
+                        <label>Información a consultar:</label>
+                        <label class='radio-inline'><input type="radio" name="optTipoInfo" id="CG" value="CG" checked="checked">Consignaciones</label>
+                        <label class='radio-inline'><input type="radio" name="optTipoInfo" id="CXP" value="CXP">Documentos por cruzar</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="grupo-campos">
+                    <label for="cmbTipoDocFiltro">Tipo de documento:</label>
+                    <select class="form-control" id="cmbTipoDocFiltro" name="cmbTipoDocFiltro"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="grupo-campos">
+                        <label for="cmbCiudadFiltro">Ciudad:</label>
+                        <select class="form-control" id="cmbCiudadFiltro" name="cmbCiudadFiltro"></select>
+                    </div>
+                </div>
+                <div class="form-group" id='divCta'>
+                    <div class="grupo-campos">
+                        <label for='cmbCtaFiltro'>Cuenta bancaria:</label>
+                        <select class="form-control" id="cmbCtaFiltro" name="cmbCtaFiltro"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cmbOficinaFiltro">Oficina:</label>
+                    <select class="form-control" id="cmbOficinaFiltro" name="cmbOficinaFiltro"></select>
+                </div>
+                <div id='filtroPropiedades'>
+                    <div class="form-group">
+                        <div class="grupo-campos">
+                            <label>Verificado en banca:</label>
+                            <label class='radio-inline'><input type="radio" name="optBanco" value="S">Verificados</label>
+                            <label class='radio-inline'><input type="radio" name="optBanco" value="N">Sin verificar</label>
+                            <label class='radio-inline'><input type="radio" name="optBanco" value="TVB" checked="checked">Todos</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="grupo-campos">
+                            <label>Documento recibido:</label>
+                            <label class='radio-inline'><input type="radio" name="optRecibido" value="S">Recibidos</label>
+                            <label class='radio-inline'><input type="radio" name="optRecibido" value="N">Sin recibir</label>
+                            <label class='radio-inline'><input type="radio" name="optRecibido" value="TRC" checked="checked">Todos</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="grupo campos">
+                        <label for='fechaini'>Fecha inicial:</label>
+                        <input class="form-control" type="text" id="fechaini" name="fechaini" size="10" maxlength="10" readonly>
+                        <input class="form-control" type="text" id="dshNfechaini"  size="16" readonly disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="grupo-campos">
+                    <label for='fechafin'>Fecha final:</label>
+                    <input class="form-control" type="text" id="fechafin" name="fechafin" size="10" maxlength="10" readonly>
+                    <input class="form-control" type="text" id="dshNfechafin" size="16" readonly disabled>
+                </div>
+                </div>
+            </fieldset>
+            <nav class='barraInferior' aria-label="consignacionFiltro">
+                <button class="btn btn-success" type="button" id="btnFiltros">Aplicar filtros</button>
+            </nav>
+            <div id="divDatos"></div>
+        </form>
+        <div id='divSecciones'>
+            <section id="seccGestionar">
+                <h2 class='accionFrm'>gestionar consignaciones</h2>
+                <nav class='barraInferior' id='navGestion' aria-label="navGestionCongignacion">
+                    <button class="btn btn-success" type="button" id="btnNvaCsg">Registrar nueva consignación</button>
+                </nav>
+                <form id="frmConsignacion" class='oculto' action="javascript:void(null);" method="POST">
+                    <fieldset><legend>Datos de consignación</legend>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                            <label for='E_ciudad'>Ciudad:</label>
+                            <div class='grupo-campos'>
+                            <select class="form-control" id="E_ciudad" name="E_ciudad"></select>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                            <label for='E_oidoficina'>Oficina que consigna:</label>
+                            <div class="grupo-campos">
+                            <div class='grupo-campos'>
+                            <select class="form-control" id="E_oidoficina" name="E_oidoficina"></select>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label for='cmbCuentas'>Cuenta bancaria:</label>
+                            <select class="form-control" id="cmbCuentas" name="cmbCuentas"></select>
+                            <span class='auxiliar' id='datosCuenta'></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                            <label for='cmbTipoDocumento'>Documentos a cruzar:</label>
+                            <div class='grupo-campos'>
+                            <select class="form-control" id="cmbTipoDocumento" name="cmbTipoDocumento"></select>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                            <label for='E_fechaconsig'>Fecha:</label>
+                            <input class="form-control" type="text" id="fechaConsignacion" name="fechaConsignacion" maxlength="10" size="10" readonly>
+                            <input class="form-control" type="text" id="dshNfecha" maxlength="16" size="16" readonly disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                            <label class='deayuda' id='hlpTercAsoc' for='txtTercero'>Tercero asociado:</label>
+                            <div class='grupo-campos'>
+                            <input class="form-control" type="text" id="txtTercero" name="txtTercero" maxlength="15" size="15">
+                            <span class='auxiliar' id='dshNtercasoc'>SIN TERCERO ASOCIADO</span>
+                            </div>
+                            </div>
+                        </div>
+                        <fieldset><legend>Valores consignados</legend>
+                            <div class="form-group">
+                                    <label for='txtVrEfectivo'>Efectivo:</label>
+                                    <input class="form-control inputnro" type="text" id="txtVrEfectivo" name="txtVrEfectivo" size="12" maxlength="12">
+                            </div>
+                            <div class="form-group">
+                                    <label for='txtVrCheque'>Cheque:</label>
+                                    <input class="form-control inputnro" type="text" id="txtVrCheque" name="txtVrCheque" size="12" maxlength="12">
+                            </div>
+                            <div class="form-group">
+                                    <label for='txtVrTdebito'>Tarjeta débito:</label>
+                                    <input class="form-control inputnro" type="text" id="txtVrTdebito" name="txtVrTdebito" size="12" maxlength="12">
+                            </div>
+                            <div class="form-group">
+                                    <label for='txtVrTcredito'>Tarjeta crédito:</label>
+                                    <input class="form-control inputnro" type="text" id="txtVrTcredito" name="txtVrTcredito" size="12" maxlength="12">
+                            </div>
+                            <div class="form-group">
+                                    <label for='txtVrTransfer'>Transferencia:</label>
+                                    <input class="form-control inputnro" type="text" id="txtVrTransfer" name="txtVrTransfer" size="12" maxlength="12">
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                                <label for='txtMayorValor'>Mayor valor consignado:</label>
+                                <input class="form-control inputnro" type="text" id="txtMayorValor" name="txtMayorValor" size="10" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                                <label for='txtMenorValor'>Menor valor consignado:</label>
+                                <input class="form-control inputnro" type="text" id="txtMenorValor" name="txtMenorValor" size="10" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                                <label for='E_vlrvales'>Valor en vales:</label>
+                                <input class="form-control inputnro" type="text" id="txtVrVales" name="txtVrVales" size="10" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                                <label for='E_descrip'>Descripción:</label>
+                                <input class="form-control" type="text" id="txtDescripcion" name="txtDescripcion" size="80" maxlength="80">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                            <label for='txtTotal'>Total:</label>
+                            <input class="form-control inputnro" type="text" id="txtTotal" name="txtTotal" size="10" maxlength="10" readonly disabled>
+                            <label class='labelMulti' for='txtPdte'>Pendiente cruzar:</label>
+                            <input class="form-control inputnro" type="text" id="txtPdte" name="txtPdte" size="10" maxlength="10" readonly disabled>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="grupo-campos">
+                            <label for="txtNota">Observación:</label>
+                            <textarea class="form-control" id="txtNota" name="txtNota" cols="50" rows="2" maxlength='200'></textarea>
+                                </div>
+                        </div>
+                        <fieldset id="fsArchivos">
+                            <legend>Archivos seleccionados</legend>
+                        </fieldset>
+                        <nav class='barraInferior' aria-label="nav-inferior">
+                            <button class="btn btn-success" type="button" id="btnGrabar">Grabar consignación</button>
+                            <button class="btn btn-default" type="button" id="btnCancelar">Regresar a listado</button>
+                        </nav>
+                    </fieldset>
+                    <div id='divAdjuntos'></div>
+                </form>
+                <table class="tabladatos" id='tblConsignados' aria-label="table valores consignados">
+                    <thead>
+                        <tr><th>TITULAR DE CUENTA</th><th>CUENTA</th><th>FECHA CG</th><th class='inputnro'>VALOR</th><th class='inputnro'>PDTE CRUCE</th><th>TIPO DOC</th><th>ADJ</th><th></th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <table class="tabladatos" id='tblDetalle' aria-label="Historial consignados">
+                    <thead>
+                        <tr><th>TERCERO</th><th>FECHA MVTO.</th><th>OFICINA</th><th>VR. MVTO.</th><th>VR. CRUCE</th><th></th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section id="seccHistorico" class='oculto'>
+                <h2 class='accionFrm'>Histórico</h2>
+                <nav class='barraInferior' aria-label="nav-inferior">
+                    <button class="btn btn-info" type="button" id="btnRptCgHistorico">Reporte Consignaciones</button>
+                    <button class="btn btn-info" type="button" id="btnRptAbonos">Reporte Abonos</button>
+                </nav>
+                <table class="tabladatos" id='tblCgHistorico' aria-label="Historial">
+                    <thead>
+                        <tr><th>TITULAR DE CUENTA</th><th>CUENTA</th><th>FECHA CG</th><th class='inputnro'>VALOR</th><th class='inputnro'>PENDIENTE</th><th>TIPO DOC</th><th>BANCO</th><th>RECIBIDO</th><th>ADJ</th><th></th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <table class="tabladatos" id='tblAbonos' aria-label="tabla abonos">
+                    <thead>
+                        <tr><th>FECHA CRUCE</th><th>CUENTA</th><th>BANCO</th><th>TIPO DOC.</th><th>TERCERO</th><th>OFICINA</th><th>VALOR CRUCE</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section id="seccCxp" class='oculto'>
+                <h2 class='accionFrm'>Cuentas por cruzar</h2>
+                <fieldset><legend>Filtros para consulta</legend>
+                    <div class="form-group">
+                        <label class='deayuda' id='hlpTerc' for='E_tercero'>Tercero:</label>
+                        <div class='grupo-campos'>
+                            <input class="form-control" id="E_tercero" name="E_tercero" maxlength="15" size="15">
+                            <span class='auxiliar' id='dshNtercero'>TODOS LOS TERCEROS</span>
+                        </div>
+                    </div>
+                </fieldset>
+                <nav class='barraInferior' aria-label="reporteCuentas">
+                    <button class="btn btn-info" type="button" id="btnListarCxP">Reporte Cuentas Por Cruzar</button>
+                    <button class="btn btn-success oculto" type="button" id="btnGrabarDetalle">Grabar cruce</button>
+                </nav>
+                <table class="tabladatos" id='tblCxP' aria-label="tabla cuentsa por cruzar">
+                    <thead>
+                        <tr><th>TERCERO</th><th>TIPO DOC</th><th>DOCUMENTO</th><th>OFICINA</th><th>FECHA</th><th>VALOR</th><th>VR PDTE</th><th></th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</main>
+
+
+
+
+
+
+
